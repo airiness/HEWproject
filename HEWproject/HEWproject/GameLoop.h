@@ -1,3 +1,8 @@
+/*
+author:zhang ruisong
+date:2019.3.7
+game main loop class
+*/
 #pragma once
 #include<Windows.h>
 #include<vector>
@@ -29,21 +34,22 @@ public:
 	void gloop();
 
 private:
+	//initial function
 	void init();
+	//unintial
 	void uninit();
+
 	void update();
-	void handleInput();
+	void handleInput(std::vector<GameActor*>&);
 
 	Sprite* getSprite(const std::string&);
-	//GameObject* getGameObject(const std::string&);
 	HANDLE std_h, buffer_h;	//two handles for double buffer
 	GameState gameState = INGAME;	//control game state
 	CHAR_INFO pixelsOfScene[SCENE_WIDTH * SCENE_HEIGHT]; //screen buffer infor
-	//screenScene
-	std::vector<GameObject*> objects;
-	std::map<std::string, Sprite*> spRes;
-
-	Scene * mainScene;
-	InputHandler * inputHandler;
+	std::vector<GameObject*> pObjects;	//save game actor
+	std::vector<GameActor*> actors;
+	std::map<std::string, Sprite*> spRes;	// save sprites
+	Scene * mainScene;	//sreenscene
+	InputHandler * inputHandler;	//inputhandler
 };
 

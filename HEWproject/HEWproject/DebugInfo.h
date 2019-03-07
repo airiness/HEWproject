@@ -1,3 +1,8 @@
+/*
+author:zhang ruisong
+date:2019.3.7
+class debugInformation
+*/
 #pragma once
 #include<Windows.h>
 #include<vector>

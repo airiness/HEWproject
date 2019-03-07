@@ -19,7 +19,7 @@ public:
 	InputHandler();
 	~InputHandler();
 
-	Command* handleInput(int);
+	Command* handleInput(GameActor&);
 
 	void initCommand();
 	void uninitCommand();

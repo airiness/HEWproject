@@ -24,11 +24,14 @@ void GameLoop::gloop()
 	Sprite BlueRole("BlueRole");
 	COORD player1coord = { 5,5 };
 	COORD player2coord = { 30,20 };
-	GameObject * player1 = new GameActor(player1coord, RedRole, "player1");
-	GameObject * player2 = new GameActor(player2coord, BlueRole, "player2");
-
-	objects.push_back(player1);
-	objects.push_back(player2);
+	GameActor player1(player1coord, RedRole, "player1");
+	GameActor player2(player2coord, BlueRole, "player2");
+	GameObject * opPlayer1 = &player1;
+	GameObject * opPlayer2 = &player2;
+	actors.push_back(&player1);
+	actors.push_back(&player2);
+	pObjects.push_back(opPlayer1);
+	pObjects.push_back(opPlayer2);
 	//fps of the game  16ms 1frame
 	//60fps
 	const auto frameStep = 500;
@@ -59,7 +62,7 @@ void GameLoop::gloop()
 		{
 			previous = current;
 			//handle input
-			handleInput();
+			handleInput(actors);
 			//handle update
 			update();
 			mainScene->draw();
@@ -126,7 +129,7 @@ void GameLoop::update()
 	case TITLE:
 		break;
 	case INGAME:
-		for (auto& a : objects)
+		for (auto& a : pObjects)
 		{
 			a->update(mainScene);
 		}
@@ -138,21 +141,35 @@ void GameLoop::update()
 	}
 }
 
-void GameLoop::handleInput()
+void GameLoop::handleInput(std::vector<GameActor*>& actors)
 {
-	switch (gameState)
+
+	if (gameState == TITLE)
 	{
-	case TITLE:
 
-		break;
-	case INGAME:
-
-		break;
-	case RESULT:
-		break;
-	default:
-		break;
 	}
+	else if (gameState == INGAME)
+	{
+		vector<Command*> vcommand(actors.size());
+
+		for (auto i = 0; i < actors.size(); i++)
+		{
+			vcommand[i] = inputHandler->handleInput(*actors[i]);
+			if (vcommand[i])
+			{
+				vcommand[i]->execute(*actors[i]);
+			}
+		}
+	}
+	else if (gameState == RESULT)
+	{
+
+	}
+	else
+	{
+		
+	}
+	
 }
 
 //get sprite from sprite map

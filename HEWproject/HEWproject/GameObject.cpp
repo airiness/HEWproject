@@ -9,36 +9,16 @@ GameObject::GameObject()
 GameObject::GameObject(COORD  pos_,Sprite & sp_,const std::string& name_)
 	:objPosition(pos_),pObjSprite(&sp_),objName(name_)
 {
-}
 
+}
 
 GameObject::~GameObject()
-{
-}
-
-void GameObject::inputHandleObj(InputHandler & inputHandler)
 {
 }
 
 void GameObject::update(Scene* screenInfo)
 {
 	writeToScreenInfo(screenInfo);
-}
-
-void GameObject::up()
-{
-}
-
-void GameObject::down()
-{
-}
-
-void GameObject::left()
-{
-}
-
-void GameObject::right()
-{
 }
 
 void GameObject::writeToScreenInfo(Scene * screenInfo)

@@ -1,16 +1,21 @@
+/*
+author:zhang ruisong
+date:2019.3.7
+class command 
+*/
 #pragma once
-#include"GameObject.h"
+#include"GameActor.h"
 class Command
 {
 public:
 	virtual ~Command() {}
-	virtual void execute(GameObject& actor) = 0;
+	virtual void execute(GameActor& actor) = 0;
 };
 
 class upCommand : public Command
 {
 public:
-	virtual void execute(GameObject& actor)
+	virtual void execute(GameActor& actor)
 	{
 		actor.up();
 	}
@@ -19,7 +24,7 @@ public:
 class downCommand : public Command
 {
 public:
-	virtual void execute(GameObject& actor)
+	virtual void execute(GameActor& actor)
 	{
 		actor.down();
 	}
@@ -28,7 +33,7 @@ public:
 class leftCommand : public Command
 {
 public:
-	virtual void execute(GameObject& actor)
+	virtual void execute(GameActor& actor)
 	{
 		actor.left();
 	}
@@ -37,7 +42,7 @@ public:
 class rightCommand : public Command
 {
 public:
-	virtual void execute(GameObject& actor)
+	virtual void execute(GameActor& actor)
 	{
 		actor.right();
 	}

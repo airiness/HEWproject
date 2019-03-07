@@ -14,11 +14,6 @@ GameActor::~GameActor()
 	actorNum--;
 }
 
-void GameActor::inputHandleObj(InputHandler & inputHandler)
-{
-	Command * command = inputHandler.handleInput(whitchActor);
-
-}
 
 void GameActor::update(Scene* screenInf)
 {

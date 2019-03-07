@@ -13,9 +13,9 @@ InputHandler::~InputHandler()
 	uninitCommand();
 }
 
-Command * InputHandler::handleInput(int num)
+Command * InputHandler::handleInput(GameActor& actor)
 {
-	if (num==1)
+	if (actor.whitchActor==1)
 	{
 		if (inputSth('A'))
 		{
@@ -38,7 +38,7 @@ Command * InputHandler::handleInput(int num)
 			return buttonS_;
 		}
 	}
-	if (num==2)
+	if (actor.whitchActor==2)
 	{
 		if (inputSth(VK_LEFT))
 		{
