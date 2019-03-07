@@ -9,8 +9,8 @@
 using namespace std;
 
 //screen size
-constexpr auto SCENE_WIDTH = 130;
-constexpr auto SCENE_HEIGHT = 30;
+constexpr auto SCENE_WIDTH = 160;
+constexpr auto SCENE_HEIGHT = 40;
 
 //gamestate different state do different things
 enum GameState
@@ -32,7 +32,7 @@ private:
 	void init();
 	void uninit();
 	void update();
-	void handleInput(GameObject& obj);
+	void handleInput();
 
 	Sprite* getSprite(const std::string&);
 	//GameObject* getGameObject(const std::string&);

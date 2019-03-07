@@ -1,41 +1,63 @@
 #include "GameActor.h"
 
+int GameActor::actorNum = 0;
 
 GameActor::GameActor(COORD position, Sprite &sp, const std::string &name)
-	:GameObject(position,sp,name),velocity_(1)
+	:GameObject(position,sp,name),velocity_(1),whitchActor(0)
 {
+	actorNum++;
+	whitchActor = actorNum;
 }
 
 GameActor::~GameActor()
 {
+	actorNum--;
+}
+
+void GameActor::inputHandleObj(InputHandler & inputHandler)
+{
+	Command * command = inputHandler.handleInput(whitchActor);
 
 }
 
 void GameActor::update(Scene* screenInf)
 {
 	GameObject::update(screenInf);
-	if (objPosition.X<0)
+
+}
+
+void GameActor::up()
+{
+	if (objPosition.Y > 0)
 	{
-		objPosition.X = 0;
-	}
-	if (objPosition.X > 130-pObjSprite->size_.X)
-	{
-		objPosition.X = 130 - pObjSprite->size_.X;
+		objPosition.Y--;
+
 	}
 }
 
-void GameActor::jump()
+void GameActor::down()
 {
+	if (objPosition.Y + pObjSprite->size_.Y < 40)
+	{
+		objPosition.Y++;
 
+	}
 }
 
 void GameActor::left()
 {
-	objPosition.X--;
+	if (objPosition.X > 0)
+	{
+		objPosition.X--;
+	}
+
 }
 
 void GameActor::right()
 {
-	objPosition.X++;
+	if (objPosition.X + pObjSprite->size_.X <160)
+	{
+		objPosition.X++;
+	}
 
 }

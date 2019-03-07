@@ -7,6 +7,7 @@ class handle input
 #include<Windows.h>
 #include<memory>
 #include"Command.h"
+#include"GameObject.h"
 #pragma comment(lib, "winmm.lib")
 
 #define PM_CURX					0x0101
@@ -18,7 +19,7 @@ public:
 	InputHandler();
 	~InputHandler();
 
-	Command* handleInput();
+	Command* handleInput(int);
 
 	void initCommand();
 	void uninitCommand();
@@ -31,6 +32,8 @@ private:
 	COORD crdMouse;
 	Command * buttonA_;
 	Command * buttonD_;
+	Command * buttonW_;
+	Command * buttonS_;
 	Command * buttonSpace_;
 };
 

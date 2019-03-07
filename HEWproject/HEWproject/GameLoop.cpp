@@ -20,11 +20,15 @@ void GameLoop::gloop()
 #endif // DEBUG
 
 	//------init gameobject
-	Sprite player1sp("panda");
+	Sprite RedRole("RedRole");
+	Sprite BlueRole("BlueRole");
 	COORD player1coord = { 5,5 };
-	GameObject * player1 = new GameActor(player1coord, player1sp, "player1");
-	objects.push_back(player1);
+	COORD player2coord = { 30,20 };
+	GameObject * player1 = new GameActor(player1coord, RedRole, "player1");
+	GameObject * player2 = new GameActor(player2coord, BlueRole, "player2");
 
+	objects.push_back(player1);
+	objects.push_back(player2);
 	//fps of the game  16ms 1frame
 	//60fps
 	const auto frameStep = 500;
@@ -41,20 +45,21 @@ void GameLoop::gloop()
 
 	while (true)
 	{
-
+		//get time now
 		auto current = GetTickCount();
+		//fps
 		if (current - fpsLastTime > 50)
 		{
 			fps = frameCount * 1000 / (current - fpsLastTime);
 			fpsLastTime = current;
 			frameCount = 0;
 		}
-		
+		//make fps 60
 		if ((current - previous )>= 1000 / 20000)
 		{
 			previous = current;
 			//handle input
-			handleInput(*player1);
+			handleInput();
 			//handle update
 			update();
 			mainScene->draw();
@@ -90,6 +95,7 @@ void GameLoop::init()
 		NULL
 	);
 
+	//make cursor unvisible
 	CONSOLE_CURSOR_INFO info;
 	info.dwSize = 1;
 	info.bVisible = FALSE;
@@ -99,7 +105,7 @@ void GameLoop::init()
 
 	//set console window name 
 	SetConsoleTitle(L"HEWプロジェクト");
-	//--
+	//--screen size
 	COORD screenSize{ SCENE_WIDTH ,SCENE_HEIGHT };
 
 	//init the scene
@@ -132,20 +138,15 @@ void GameLoop::update()
 	}
 }
 
-void GameLoop::handleInput(GameObject& obj)
+void GameLoop::handleInput()
 {
-	Command * command = inputHandler->handleInput();
-
 	switch (gameState)
 	{
 	case TITLE:
 
 		break;
 	case INGAME:
-		if (command)
-		{
-			command->execute(obj);
-		}
+
 		break;
 	case RESULT:
 		break;

@@ -7,12 +7,21 @@ public:
 	virtual void execute(GameObject& actor) = 0;
 };
 
-class jumpCommand : public Command
+class upCommand : public Command
 {
 public:
 	virtual void execute(GameObject& actor)
 	{
-		actor.jump();
+		actor.up();
+	}
+};
+
+class downCommand : public Command
+{
+public:
+	virtual void execute(GameObject& actor)
+	{
+		actor.down();
 	}
 };
 

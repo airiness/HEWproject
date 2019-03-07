@@ -16,12 +16,20 @@ GameObject::~GameObject()
 {
 }
 
+void GameObject::inputHandleObj(InputHandler & inputHandler)
+{
+}
+
 void GameObject::update(Scene* screenInfo)
 {
 	writeToScreenInfo(screenInfo);
 }
 
-void GameObject::jump()
+void GameObject::up()
+{
+}
+
+void GameObject::down()
 {
 }
 

@@ -13,20 +13,55 @@ InputHandler::~InputHandler()
 	uninitCommand();
 }
 
-Command * InputHandler::handleInput()
+Command * InputHandler::handleInput(int num)
 {
-	if (inputSth('A'))
+	if (num==1)
 	{
-		return buttonA_;
+		if (inputSth('A'))
+		{
+			return buttonA_;
+		}
+		if (inputSth('D'))
+		{
+			return buttonD_;
+		}
+		if (inputSth(VK_SPACE))
+		{
+			return buttonSpace_;
+		}
+		if (inputSth('W'))
+		{
+			return buttonW_;
+		}
+		if (inputSth('S'))
+		{
+			return buttonS_;
+		}
 	}
-	if (inputSth('D'))
+	if (num==2)
 	{
-		return buttonD_;
+		if (inputSth(VK_LEFT))
+		{
+			return buttonA_;
+		}
+		if (inputSth(VK_RIGHT))
+		{
+			return buttonD_;
+		}
+		if (inputSth(VK_SPACE))
+		{
+			return buttonSpace_;
+		}
+		if (inputSth(VK_UP))
+		{
+			return buttonW_;
+		}
+		if (inputSth(VK_DOWN))
+		{
+			return buttonS_;
+		}
 	}
-	if (inputSth(VK_SPACE))
-	{
-		return buttonSpace_;
-	}
+
 	return nullptr;
 }
 
@@ -34,13 +69,18 @@ void InputHandler::initCommand()
 {
 	buttonA_ = new leftCommand();
 	buttonD_ = new rightCommand();
-	buttonSpace_ = new jumpCommand();
+	buttonW_ = new upCommand();
+	buttonS_ = new downCommand();
+	buttonSpace_ = new upCommand();
+
 }
 
 void InputHandler::uninitCommand()
 {
 	delete buttonA_;
 	delete buttonD_;
+	delete buttonW_;
+	delete buttonS_;
 	delete buttonSpace_;
 }
 
