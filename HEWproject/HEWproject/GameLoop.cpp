@@ -1,19 +1,17 @@
 #include "GameLoop.h"
 
-
-
+//gameloop constructor
 GameLoop::GameLoop()
 {
 	init();
-
 }
-
-
+// gameloop deconstructor
 GameLoop::~GameLoop()
 {
 	uninit();
 }
 
+// main gameloop
 void GameLoop::gloop()
 {
 
@@ -21,11 +19,15 @@ void GameLoop::gloop()
 	DebugInfo debuginfo(*mainScene);
 #endif // DEBUG
 
-
+	//------init gameobject
+	Sprite player1sp("panda");
+	COORD player1coord = { 5,5 };
+	GameObject * player1 = new GameActor(player1coord, player1sp, "player1");
+	objects.push_back(player1);
 
 	//fps of the game  16ms 1frame
 	//60fps
-	const auto frameStep = 16;
+	const auto frameStep = 500;
 
 	//
 	auto previous = GetTickCount();
@@ -40,20 +42,21 @@ void GameLoop::gloop()
 		auto elapsed = current - previous;
 		previous = current;
 		lag += elapsed;
+		//handle input
+		handleInput(*player1);
+
+			//handle update
+		update();
+		mainScene->draw();
+
+#ifdef _DEBUG
 		if (elapsed!=0)
 		{
-			fps = frameCount * 1000 / elapsed;
+			fps = 1000 / elapsed;
+			frameCount++;
 		}
-
-		while (lag>frameStep)
-		{
-			update();
-			lag -= frameStep;
-		}
-		mainScene->draw();
-		++frameCount;
-#ifdef _DEBUG
 		debuginfo.writeDebugInfo(fps);
+
 #endif // _DEBUG
 		mainScene->swap();
 	}
@@ -69,8 +72,8 @@ void GameLoop::init()
 		NULL,
 		CONSOLE_TEXTMODE_BUFFER,
 		NULL
-	); 
-	//	GetStdHandle(STD_OUTPUT_HANDLE);
+	);
+	//GetStdHandle(STD_OUTPUT_HANDLE);
 	//buffer handle2
 	buffer_h = CreateConsoleScreenBuffer(
 		GENERIC_READ | GENERIC_WRITE,
@@ -80,14 +83,27 @@ void GameLoop::init()
 		NULL
 	);
 
+	CONSOLE_CURSOR_INFO info;
+	info.dwSize = 1;
+	info.bVisible = FALSE;
+	SetConsoleCursorInfo(std_h, &info);
+	SetConsoleCursorInfo(buffer_h, &info);
+
+
 	//set console window name 
 	SetConsoleTitle(L"HEWプロジェクト");
+	//--
 	COORD screenSize{ SCENE_WIDTH ,SCENE_HEIGHT };
+
+	//init the scene
 	mainScene = new Scene(std_h, buffer_h, pixelsOfScene, screenSize);
+	inputHandler = new InputHandler();
 }
 
 void GameLoop::uninit()
 {
+	delete mainScene;
+	delete inputHandler;
 }
 
 void GameLoop::update()
@@ -97,10 +113,42 @@ void GameLoop::update()
 	case TITLE:
 		break;
 	case INGAME:
+		for (auto& a : objects)
+		{
+			a->update(mainScene);
+		}
 		break;
 	case RESULT:
 		break;
 	default:
 		break;
 	}
+}
+
+void GameLoop::handleInput(GameObject& obj)
+{
+	Command * command = inputHandler->handleInput();
+
+	switch (gameState)
+	{
+	case TITLE:
+
+		break;
+	case INGAME:
+		if (command)
+		{
+			command->execute(obj);
+		}
+		break;
+	case RESULT:
+		break;
+	default:
+		break;
+	}
+}
+
+//get sprite from sprite map
+Sprite * GameLoop::getSprite(const std::string& spName)
+{
+	return spRes.find(spName)->second;
 }

@@ -5,7 +5,7 @@
 class Scene
 {
 public:
-	Scene();
+	//Scene();
 	Scene(HANDLE& , HANDLE& , CHAR_INFO*,COORD);
 	~Scene();
 
@@ -19,14 +19,19 @@ public:
 	void swap();
 
 	//
-	//CHAR_INFO* getSceneInfo();
+	CHAR_INFO* getSceneInfo();
+	COORD getScreenSize();
 
 private:
-	HANDLE * current_;	//
+	//function to clear handle(buffer)
+	void clearHandle();
+
+	HANDLE * current_;	
 	HANDLE * next_;
 	COORD sceneSize;
 	COORD sceneCoord;
 	SMALL_RECT srctReadRect;
 	CHAR_INFO * pixels;
+
 };
 

@@ -1,13 +1,5 @@
 #include "Scene.h"
 
-
-Scene::Scene()
-	:current_(nullptr), next_(nullptr), pixels(nullptr),
-	sceneSize({0,0}), sceneCoord({ 0,0 }),
-	srctReadRect({ 0,0,0,0 })
-{
-}
-
 Scene::Scene(HANDLE & buffer1_,HANDLE & buffer2_,CHAR_INFO * pixils_,COORD sceneSize)
 	:current_(&buffer1_),next_(&buffer2_), pixels(pixils_),
 	sceneSize(sceneSize),sceneCoord({0,0}),
@@ -24,7 +16,6 @@ Scene::~Scene()
 void Scene::draw()
 {
 	WriteConsoleOutput(*next_, pixels, sceneSize, sceneCoord, &srctReadRect);
-
 }
 
 void Scene::setPos(COORD pos)
@@ -47,16 +38,34 @@ void Scene::writeStr(const std::string& str)
 //swap the buffer 
 void Scene::swap()
 {
-	HANDLE * tmp = current_;
-	current_ = next_;
-	next_ = tmp;
+	HANDLE* tmp;
+	tmp = next_;
+	next_ = current_;
+	current_ = tmp;
 	SetConsoleActiveScreenBuffer(*current_);
+	clearHandle();
 }
 
 
-//CHAR_INFO* Scene::getSceneInfo()
-//{
-//	return pixels;
-//}
+CHAR_INFO* Scene::getSceneInfo()
+{
+	return pixels;
+}
+
+COORD Scene::getScreenSize()
+{
+	return sceneSize;
+}
+
+void Scene::clearHandle()
+{
+	for (size_t i = 0; i < sceneSize.X* sceneSize.Y; i++)
+	{
+		(pixels + i)->Attributes = 0X00;
+		(pixels + i)->Char.UnicodeChar = ' ';
+	}
+	WriteConsoleOutput(*next_ , pixels, sceneSize, sceneCoord, &srctReadRect);
+
+}
 
 

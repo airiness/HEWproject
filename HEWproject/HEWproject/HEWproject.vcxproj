@@ -20,22 +20,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Box.cpp" />
-    <ClCompile Include="Charactor.cpp" />
+    <ClCompile Include="GameActor.cpp" />
     <ClCompile Include="DebugInfo.cpp" />
     <ClCompile Include="GameLoop.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="Charactor.h" />
+    <ClInclude Include="GameActor.h" />
+    <ClInclude Include="Command.h" />
     <ClInclude Include="DebugInfo.h" />
     <ClInclude Include="GameLoop.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />
@@ -58,7 +59,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

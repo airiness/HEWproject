@@ -18,20 +18,8 @@ void DebugInfo::writeDebugInfo( const int fps)
 	ss >> sfps;
 	COORD pos = { 0,0 };
 	sceneDebug->setPos(pos);
+	sceneDebug->writeStr("      ");
+	sceneDebug->setPos(pos);
 	sceneDebug->writeStr(sfps);
 
 }
-//
-//void DebugInfo::writeDebugInfoToScene()
-//{
-//	for (size_t i = 0; i < debugBoardSize.X; i++)
-//	{
-//		for (size_t j = 0; j < debugBoardSize.Y; j++)
-//		{
-//			if (isBlank[j * debugBoardSize.X + i] == true)
-//			{
-//				scenePixels[j *SCENE_WIDTH + i] = debugInformation[j * debugBoardSize.X + i];
-//			}
-//		}
-//	}
-//}

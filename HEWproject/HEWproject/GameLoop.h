@@ -1,17 +1,18 @@
 #pragma once
 #include<Windows.h>
 #include<vector>
+#include<map>
 #include"DebugInfo.h"
+#include"InputHandler.h"
 #include"Scene.h"
-#include"Charactor.h"
+#include"GameActor.h"
 using namespace std;
 
+//screen size
 constexpr auto SCENE_WIDTH = 130;
 constexpr auto SCENE_HEIGHT = 30;
 
-//#define SCENE_WIDTH 130
-//#define SCENE_HEIGHT 30
-
+//gamestate different state do different things
 enum GameState
 {
 	TITLE,
@@ -31,14 +32,18 @@ private:
 	void init();
 	void uninit();
 	void update();
+	void handleInput(GameObject& obj);
 
-
+	Sprite* getSprite(const std::string&);
+	//GameObject* getGameObject(const std::string&);
 	HANDLE std_h, buffer_h;	//two handles for double buffer
-	GameState gameState = TITLE;	//control game state
+	GameState gameState = INGAME;	//control game state
 	CHAR_INFO pixelsOfScene[SCENE_WIDTH * SCENE_HEIGHT]; //screen buffer infor
 	//screenScene
 	std::vector<GameObject*> objects;
+	std::map<std::string, Sprite*> spRes;
 
 	Scene * mainScene;
+	InputHandler * inputHandler;
 };
 
