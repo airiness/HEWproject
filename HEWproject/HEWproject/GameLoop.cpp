@@ -29,36 +29,43 @@ void GameLoop::gloop()
 	//60fps
 	const auto frameStep = 500;
 
-	//
-	auto previous = GetTickCount();
-	auto lag = 0.0;
+	// time now
+	auto previous = 0;
+	//last time show fps
+	auto fpsLastTime = 0;
+	previous = fpsLastTime = GetTickCount();
+	//number of frame
 	auto frameCount = 0;
+	//frame per second
 	auto fps = 0;
 
 	while (true)
 	{
 
 		auto current = GetTickCount();
-		auto elapsed = current - previous;
-		previous = current;
-		lag += elapsed;
-		//handle input
-		handleInput(*player1);
-
+		if (current - fpsLastTime > 50)
+		{
+			fps = frameCount * 1000 / (current - fpsLastTime);
+			fpsLastTime = current;
+			frameCount = 0;
+		}
+		
+		if ((current - previous )>= 1000 / 20000)
+		{
+			previous = current;
+			//handle input
+			handleInput(*player1);
 			//handle update
-		update();
-		mainScene->draw();
+			update();
+			mainScene->draw();
+			frameCount++;
 
 #ifdef _DEBUG
-		if (elapsed!=0)
-		{
-			fps = 1000 / elapsed;
-			frameCount++;
-		}
-		debuginfo.writeDebugInfo(fps);
+			debuginfo.writeDebugInfo(fps);
 
 #endif // _DEBUG
-		mainScene->swap();
+			mainScene->swap();
+		}
 	}
 }
 
