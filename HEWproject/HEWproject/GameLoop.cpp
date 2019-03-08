@@ -1,5 +1,4 @@
 #include "GameLoop.h"
-
 //gameloop constructor
 GameLoop::GameLoop()
 {
@@ -10,7 +9,6 @@ GameLoop::~GameLoop()
 {
 	uninit();
 }
-
 // main gameloop
 void GameLoop::gloop()
 {
@@ -18,20 +16,6 @@ void GameLoop::gloop()
 #ifdef _DEBUG
 	DebugInfo debuginfo(*mainScene);
 #endif // DEBUG
-
-	//------init gameobject
-	Sprite RedRole("RedRole");
-	Sprite BlueRole("BlueRole");
-	COORD player1coord = { 5,5 };
-	COORD player2coord = { 30,20 };
-	GameActor player1(player1coord, RedRole, "player1");
-	GameActor player2(player2coord, BlueRole, "player2");
-	GameObject * opPlayer1 = &player1;
-	GameObject * opPlayer2 = &player2;
-	actors.push_back(&player1);
-	actors.push_back(&player2);
-	pObjects.push_back(opPlayer1);
-	pObjects.push_back(opPlayer2);
 	//fps of the game  16ms 1frame
 	//60fps
 	const auto frameStep = 500;
@@ -76,44 +60,12 @@ void GameLoop::gloop()
 		}
 	}
 }
-
+//init function
 void GameLoop::init()
 {
-	//create two handles for double buffer
-	//buffer handle1
-	std_h = CreateConsoleScreenBuffer(
-		GENERIC_READ | GENERIC_WRITE,
-		0,
-		NULL,
-		CONSOLE_TEXTMODE_BUFFER,
-		NULL
-	);
-	//GetStdHandle(STD_OUTPUT_HANDLE);
-	//buffer handle2
-	buffer_h = CreateConsoleScreenBuffer(
-		GENERIC_READ | GENERIC_WRITE,
-		0,
-		NULL,
-		CONSOLE_TEXTMODE_BUFFER,
-		NULL
-	);
-
-	//make cursor unvisible
-	CONSOLE_CURSOR_INFO info;
-	info.dwSize = 1;
-	info.bVisible = FALSE;
-	SetConsoleCursorInfo(std_h, &info);
-	SetConsoleCursorInfo(buffer_h, &info);
-
-
-	//set console window name 
-	SetConsoleTitle(L"HEWプロジェクト");
-	//--screen size
-	COORD screenSize{ SCENE_WIDTH ,SCENE_HEIGHT };
-
-	//init the scene
-	mainScene = new Scene(std_h, buffer_h, pixelsOfScene, screenSize);
-	inputHandler = new InputHandler();
+	inithandleBuffers();
+	initGameCompanent();
+	initGameResource();
 }
 
 void GameLoop::uninit()
@@ -170,10 +122,4 @@ void GameLoop::handleInput(std::vector<GameActor*>& actors)
 		
 	}
 	
-}
-
-//get sprite from sprite map
-Sprite * GameLoop::getSprite(const std::string& spName)
-{
-	return spRes.find(spName)->second;
 }

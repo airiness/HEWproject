@@ -6,7 +6,8 @@ game main loop class
 #pragma once
 #include<Windows.h>
 #include<vector>
-#include<map>
+#include<unordered_map>
+#include<fstream>
 #include"DebugInfo.h"
 #include"InputHandler.h"
 #include"Scene.h"
@@ -27,10 +28,85 @@ enum GameState
 
 class GameLoop
 {
+private:
+	// init sub functions
+	inline void inithandleBuffers()
+	{
+		//create two handles for double buffer
+		//buffer handle1
+		std_h = CreateConsoleScreenBuffer(
+			GENERIC_READ | GENERIC_WRITE,
+			0,
+			NULL,
+			CONSOLE_TEXTMODE_BUFFER,
+			NULL
+		);
+		//GetStdHandle(STD_OUTPUT_HANDLE);
+		//buffer handle2
+		buffer_h = CreateConsoleScreenBuffer(
+			GENERIC_READ | GENERIC_WRITE,
+			0,
+			NULL,
+			CONSOLE_TEXTMODE_BUFFER,
+			NULL
+		);
+		//make cursor unvisible
+		CONSOLE_CURSOR_INFO info;
+		info.dwSize = 1;
+		info.bVisible = FALSE;
+		SetConsoleCursorInfo(std_h, &info);
+		SetConsoleCursorInfo(buffer_h, &info);
+		//set console window name 
+		SetConsoleTitle(L"HEWプロジェクト");
+	}
+	inline void initGameCompanent()
+	{
+		//init the scene
+		COORD screenSize{ SCENE_WIDTH ,SCENE_HEIGHT };//--screen size
+		mainScene = new Scene(std_h, buffer_h, pixelsOfScene, screenSize);
+		//init input handler
+		inputHandler = new InputHandler();
+	}
+	inline void initGameResource()
+	{
+		//load sprites
+		fstream fsprites("SpriteList");
+		if (!fsprites)
+		{
+			return;
+		}
+		while (!fsprites.eof())
+		{
+			string spriteName;
+			fsprites >> spriteName;
+			spRes.insert(pair<string, Sprite*>(spriteName, new Sprite(spriteName)));
+		}
+		//create actors items and save them
+		COORD player1coord = { 5,5 };
+		COORD player2coord = { 30,20 };
+		actors.push_back(new GameActor(player1coord, "player1", spRes));
+		actors.push_back(new GameActor(player2coord, "player2", spRes));
+		for (auto & a : actors)
+		{
+			pObjects.push_back(a);
+		}
+	}
+
+private:
+	///------
+	HANDLE std_h, buffer_h;									//two handles for double buffer
+	GameState gameState = INGAME;							//control game state
+	CHAR_INFO pixelsOfScene[SCENE_WIDTH * SCENE_HEIGHT];	//screen buffer infor
+	vector<GameObject*> pObjects;						//save game actor
+	vector<GameActor*> actors;							//save gameactor's pointer
+	unordered_map<string, Sprite*> spRes;					//save sprites
+	Scene * mainScene;										//sreenscene
+	InputHandler * inputHandler;							//inputhandler
+
 public:
 	GameLoop();
 	~GameLoop();
-	
+	//game loop
 	void gloop();
 
 private:
@@ -38,18 +114,9 @@ private:
 	void init();
 	//unintial
 	void uninit();
-
+	//update all game objects
 	void update();
-	void handleInput(std::vector<GameActor*>&);
-
-	Sprite* getSprite(const std::string&);
-	HANDLE std_h, buffer_h;	//two handles for double buffer
-	GameState gameState = INGAME;	//control game state
-	CHAR_INFO pixelsOfScene[SCENE_WIDTH * SCENE_HEIGHT]; //screen buffer infor
-	std::vector<GameObject*> pObjects;	//save game actor
-	std::vector<GameActor*> actors;
-	std::map<std::string, Sprite*> spRes;	// save sprites
-	Scene * mainScene;	//sreenscene
-	InputHandler * inputHandler;	//inputhandler
+	//deal the inputs of actors
+	void handleInput(vector<GameActor*>&);
 };
 

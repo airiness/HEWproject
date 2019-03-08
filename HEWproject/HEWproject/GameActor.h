@@ -6,7 +6,7 @@ class GameActor :
 	public GameObject
 {
 public:
-	GameActor(COORD, Sprite&, const std::string&);
+	GameActor(COORD, const std::string&, std::unordered_map<std::string, Sprite*>&);
 	~GameActor();
 
 	//update gameobject state

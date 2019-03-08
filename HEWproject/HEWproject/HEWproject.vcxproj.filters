@@ -69,4 +69,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SpriteList">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

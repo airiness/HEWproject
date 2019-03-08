@@ -39,6 +39,9 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="SpriteList" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{CFBE6410-6B9C-4D1A-B677-DF4B59089FC7}</ProjectGuid>

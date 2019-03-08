@@ -1,3 +1,10 @@
+/*
+author:zhang ruisong
+date:2019.3.9
+Scene class
+double buffer
+draw screen
+*/
 #pragma once
 #include<Windows.h>
 #include<string>

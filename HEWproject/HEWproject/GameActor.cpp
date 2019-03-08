@@ -2,8 +2,8 @@
 
 int GameActor::actorNum = 0;
 
-GameActor::GameActor(COORD position, Sprite &sp, const std::string &name)
-	:GameObject(position,sp,name),velocity_(1),whitchActor(0)
+GameActor::GameActor(COORD position_, const std::string &name_, std::unordered_map<std::string, Sprite*>& msp_)
+	:GameObject(position_,name_, msp_),velocity_(1),whitchActor(0)
 {
 	actorNum++;
 	whitchActor = actorNum;
@@ -13,7 +13,6 @@ GameActor::~GameActor()
 {
 	actorNum--;
 }
-
 
 void GameActor::update(Scene* screenInf)
 {

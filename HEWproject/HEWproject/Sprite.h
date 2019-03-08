@@ -1,3 +1,8 @@
+/*
+author:zhang ruisong
+date:2019.3.9
+sprite class
+*/
 #pragma once
 #include<Windows.h>
 #include<string>
@@ -17,7 +22,6 @@ private:
 	//load sprite from bmp file
 	int loadSpriteFromFile();
 	//change bmp pixel RGB information to char_info
-
 	bool RGBToCharInfo(const RGBTRIPLE&, CHAR_INFO&);
 };
 
