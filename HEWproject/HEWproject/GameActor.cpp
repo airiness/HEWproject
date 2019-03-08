@@ -26,6 +26,7 @@ GameActor::~GameActor()
 	actorNum--;
 }
 
+
 void GameActor::update()
 {
 
@@ -43,6 +44,7 @@ void GameActor::update()
 
 }
 
+//when actor move up
 void GameActor::up()
 {
 	if (objPosition.Y > 0)
@@ -68,6 +70,7 @@ void GameActor::up()
 	}
 }
 
+//when actor move to down
 void GameActor::down()
 {
 	if (objPosition.Y + pObjSprite->size_.Y < sceneInfo->getScreenSize().Y)
@@ -95,6 +98,9 @@ void GameActor::down()
 
 void GameActor::left()
 {
+	std::string spname = { "player" };
+	spname = spname + std::to_string(whitchActor) + "left";
+	pObjSprite = uomSprites->find(spname)->second;
 	if (objPosition.X > 0)
 	{
 		bool canMove = true;
@@ -122,7 +128,9 @@ void GameActor::left()
 
 void GameActor::right()
 {
-	
+	std::string spname = { "player" };
+	spname = spname + std::to_string(whitchActor) + "right";
+	pObjSprite = uomSprites->find(spname)->second;
 	if (objPosition.X + pObjSprite->size_.X < sceneInfo->getScreenSize().X)
 	{
 		//if can move
