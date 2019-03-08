@@ -1,11 +1,10 @@
 #include "Scene.h"
 
-Scene::Scene(HANDLE & buffer1_,HANDLE & buffer2_,CHAR_INFO * pixils_,COORD sceneSize)
+Scene::Scene(HANDLE & buffer1_,HANDLE & buffer2_,CHAR_INFO * pixils_,COORD sceneSize_)
 	:current_(&buffer1_),next_(&buffer2_), pixels(pixils_),
-	sceneSize(sceneSize),sceneCoord({0,0}),
-	srctReadRect({0,0,sceneSize.X,sceneSize.Y })
+	sceneSize(sceneSize_),sceneCoord({0,0}),
+	srctReadRect({0,0,sceneSize_.X,sceneSize_.Y })
 {
-	
 }
 
 Scene::~Scene()
@@ -45,7 +44,6 @@ void Scene::swap()
 	SetConsoleActiveScreenBuffer(*current_);
 	clearHandle();
 }
-
 
 CHAR_INFO* Scene::getSceneInfo()
 {

@@ -8,24 +8,32 @@ basoc game object
 #include<unordered_map>
 #include<string>
 #include"Scene.h"
+#include"MapInformation.h"
 #include"Sprite.h"
 class GameObject
 {
 public:
-	GameObject(COORD,const std::string&, std::unordered_map<std::string, Sprite*>&);
+	GameObject(COORD,const std::string&, std::unordered_map<std::string, Sprite*>&, Scene&,MapInformation&);
 	virtual ~GameObject();
 	//update the object state
-	virtual void update(Scene* screenInfo);
-	
+	virtual void update();
+
 	std::string objName;//object name
+	COORD objOldPosition;	//old position
 	COORD objPosition; // object position
 	Sprite *pObjSprite; //the sprite of object
 	bool isUse; //is the object useful
-
-private:
+	bool isEntity = false; // phsical
+protected:
 	std::unordered_map<std::string, Sprite*> * uomSprites;
+	Scene * sceneInfo;			//mainscene
+	MapInformation* mapInfo;	//mapinfo for collition
+	//load sprite
 	Sprite* loadSpriteByName(const std::string);
 
-	void writeToScreenInfo(Scene* screenInfo);
+
+private:
+	//get sprite to show
+	void writeToScreenInfo();
 };
 

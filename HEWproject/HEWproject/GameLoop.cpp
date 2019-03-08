@@ -72,6 +72,7 @@ void GameLoop::uninit()
 {
 	delete mainScene;
 	delete inputHandler;
+	delete mainMapInfo;
 }
 
 void GameLoop::update()
@@ -83,7 +84,7 @@ void GameLoop::update()
 	case INGAME:
 		for (auto& a : pObjects)
 		{
-			a->update(mainScene);
+			a->update();
 		}
 		break;
 	case RESULT:

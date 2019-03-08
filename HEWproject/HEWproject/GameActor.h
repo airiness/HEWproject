@@ -1,16 +1,25 @@
+/*
+author:zhang ruisong
+date:2019.3.9
+GameActor inherit from GameObject
+*/
 #pragma once
 #include<string>
 #include "GameObject.h"
+
 
 class GameActor :
 	public GameObject
 {
 public:
-	GameActor(COORD, const std::string&, std::unordered_map<std::string, Sprite*>&);
+	GameActor(COORD, const std::string&, 
+		std::unordered_map<std::string, Sprite*>&,
+		Scene&,MapInformation&,
+		CHAR_INFO);
 	~GameActor();
 
 	//update gameobject state
-	virtual void update(Scene* screenInf);
+	virtual void update();
 
 	//gameobject control functions
 	void up();
@@ -18,10 +27,13 @@ public:
 	void left();
 	void right();
 
+	//different actor  has actions itseft
 	int whitchActor;
 private:
-	int velocity_;
-
+	CHAR_INFO actorColor;
+	bool isMoved = false;
+	int power = 6;
 	//to remeber actor numbers(how many)
 	static int actorNum;
+
 };

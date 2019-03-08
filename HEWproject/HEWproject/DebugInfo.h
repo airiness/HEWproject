@@ -9,17 +9,14 @@ class debugInformation
 #include<sstream>
 #include"Scene.h"
 
-
 class DebugInfo
 {
 public:
 	DebugInfo(Scene&);
 	~DebugInfo();
 
+	//write info to buffer
 	void writeDebugInfo(const int timeFromlast);
-
-	//void writeDebugInfoToScene();
-
 private:
 	Scene * sceneDebug;
 };

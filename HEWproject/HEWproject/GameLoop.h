@@ -10,6 +10,7 @@ game main loop class
 #include<fstream>
 #include"DebugInfo.h"
 #include"InputHandler.h"
+#include"MapInformation.h"
 #include"Scene.h"
 #include"GameActor.h"
 using namespace std;
@@ -64,6 +65,8 @@ private:
 		//init the scene
 		COORD screenSize{ SCENE_WIDTH ,SCENE_HEIGHT };//--screen size
 		mainScene = new Scene(std_h, buffer_h, pixelsOfScene, screenSize);
+		//init mapInformation,for collition
+		mainMapInfo = new MapInformation(screenSize);
 		//init input handler
 		inputHandler = new InputHandler();
 	}
@@ -83,9 +86,14 @@ private:
 		}
 		//create actors items and save them
 		COORD player1coord = { 5,5 };
-		COORD player2coord = { 30,20 };
-		actors.push_back(new GameActor(player1coord, "player1", spRes));
-		actors.push_back(new GameActor(player2coord, "player2", spRes));
+		COORD player2coord = { 100,20 };
+		CHAR_INFO player1color;
+		player1color.Attributes = 0xAB;
+		player1color.Char.UnicodeChar = 0x2665;
+		CHAR_INFO player2color;
+		player2color.Attributes = 0xCD;
+		actors.push_back(new GameActor(player1coord, "player1right", spRes, *mainScene, *mainMapInfo, player1color));
+		actors.push_back(new GameActor(player2coord, "player2left", spRes, *mainScene, *mainMapInfo, player2color));
 		for (auto & a : actors)
 		{
 			pObjects.push_back(a);
@@ -97,11 +105,12 @@ private:
 	HANDLE std_h, buffer_h;									//two handles for double buffer
 	GameState gameState = INGAME;							//control game state
 	CHAR_INFO pixelsOfScene[SCENE_WIDTH * SCENE_HEIGHT];	//screen buffer infor
-	vector<GameObject*> pObjects;						//save game actor
-	vector<GameActor*> actors;							//save gameactor's pointer
+	vector<GameObject*> pObjects;							//save game actor
+	vector<GameActor*> actors;								//save gameactor's pointer
 	unordered_map<string, Sprite*> spRes;					//save sprites
 	Scene * mainScene;										//sreenscene
 	InputHandler * inputHandler;							//inputhandler
+	MapInformation * mainMapInfo;								//mapinformation
 
 public:
 	GameLoop();

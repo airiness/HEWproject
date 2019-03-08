@@ -8,7 +8,7 @@ draw screen
 #pragma once
 #include<Windows.h>
 #include<string>
-
+#include<vector>
 class Scene
 {
 public:
@@ -32,8 +32,8 @@ public:
 private:
 	//function to clear handle(buffer)
 	void clearHandle();
-
-	HANDLE * current_;	
+	///
+	HANDLE * current_;		//current buffer
 	HANDLE * next_;
 	COORD sceneSize;
 	COORD sceneCoord;
