@@ -16,7 +16,7 @@ game main loop class
 using namespace std;
 
 //screen size
-constexpr auto SCENE_WIDTH = 160;
+constexpr auto SCENE_WIDTH = 120;
 constexpr auto SCENE_HEIGHT = 40;
 
 //gamestate different state do different things
@@ -66,7 +66,7 @@ private:
 		COORD screenSize{ SCENE_WIDTH ,SCENE_HEIGHT };//--screen size
 		mainScene = new Scene(std_h, buffer_h, pixelsOfScene, screenSize);
 		//init mapInformation,for collition
-		mainMapInfo = new MapInformation(screenSize);
+		mainMapInfo = new MapInformation(screenSize,*mainScene,colorRes);
 		//init input handler
 		inputHandler = new InputHandler();
 	}
@@ -86,14 +86,12 @@ private:
 		}
 		//create actors items and save them
 		COORD player1coord = { 5,5 };
-		COORD player2coord = { 100,20 };
-		CHAR_INFO player1color;
-		player1color.Attributes = 0xAB;
-		player1color.Char.UnicodeChar = 0x2665;
-		CHAR_INFO player2color;
-		player2color.Attributes = 0xCD;
-		actors.push_back(new GameActor(player1coord, "player1right", spRes, *mainScene, *mainMapInfo, player1color));
-		actors.push_back(new GameActor(player2coord, "player2left", spRes, *mainScene, *mainMapInfo, player2color));
+		COORD player2coord = { 60,20 };
+
+		colorRes.insert(pair<string, CHAR_INFO*>("player1color", new CHAR_INFO{ 0x2665 ,0xAB }));
+		colorRes.insert(pair<string, CHAR_INFO*>("player2color", new CHAR_INFO{ 0x2661, 0xCD }));
+		actors.push_back(new GameActor(player1coord, "player1right", spRes, *mainScene, *mainMapInfo, colorRes));
+		actors.push_back(new GameActor(player2coord, "player2left", spRes, *mainScene, *mainMapInfo, colorRes));
 		for (auto & a : actors)
 		{
 			pObjects.push_back(a);
@@ -108,6 +106,7 @@ private:
 	vector<GameObject*> pObjects;							//save game actor
 	vector<GameActor*> actors;								//save gameactor's pointer
 	unordered_map<string, Sprite*> spRes;					//save sprites
+	unordered_map<string, CHAR_INFO*> colorRes;				//color resource
 	Scene * mainScene;										//sreenscene
 	InputHandler * inputHandler;							//inputhandler
 	MapInformation * mainMapInfo;								//mapinformation

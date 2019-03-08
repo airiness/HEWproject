@@ -5,6 +5,7 @@ Scene::Scene(HANDLE & buffer1_,HANDLE & buffer2_,CHAR_INFO * pixils_,COORD scene
 	sceneSize(sceneSize_),sceneCoord({0,0}),
 	srctReadRect({0,0,sceneSize_.X,sceneSize_.Y })
 {
+
 }
 
 Scene::~Scene()

@@ -9,6 +9,8 @@ draw screen
 #include<Windows.h>
 #include<string>
 #include<vector>
+
+class GameActor;
 class Scene
 {
 public:

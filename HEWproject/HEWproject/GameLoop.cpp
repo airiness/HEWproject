@@ -47,6 +47,7 @@ void GameLoop::gloop()
 			previous = current;
 			//handle input
 			handleInput(actors);
+			mainMapInfo->update();
 			//handle update
 			update();
 			mainScene->draw();

@@ -9,4 +9,5 @@ pixel information class
 struct PixelProperty
 {
 	bool isBlock = false;
+	int belongWho = 0;
 };

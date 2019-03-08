@@ -15,7 +15,7 @@ public:
 	GameActor(COORD, const std::string&, 
 		std::unordered_map<std::string, Sprite*>&,
 		Scene&,MapInformation&,
-		CHAR_INFO);
+		std::unordered_map<std::string, CHAR_INFO*>&);
 	~GameActor();
 
 	//update gameobject state
@@ -29,11 +29,13 @@ public:
 
 	//different actor  has actions itseft
 	int whitchActor;
+
 private:
-	CHAR_INFO actorColor;
+	CHAR_INFO* actorColor;
 	bool isMoved = false;
-	int power = 6;
+	int inkPower = 12;
 	//to remeber actor numbers(how many)
 	static int actorNum;
+	std::unordered_map<std::string, CHAR_INFO*>* colorRes;
 
 };
