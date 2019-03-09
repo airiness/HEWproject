@@ -47,3 +47,21 @@ public:
 		actor.right();
 	}
 };
+
+class shootCommand : public Command
+{
+public:
+	virtual void execute(GameActor& actor)
+	{
+		actor.shoot();
+	}
+};
+
+class powerCommand : public Command
+{
+public:
+	virtual void execute(GameActor& actor)
+	{
+		actor.plusPower();
+	}
+};

@@ -33,6 +33,14 @@ GameActor::~GameActor()
 void GameActor::update()
 {
 
+	std::string colorName = { "player" };
+	colorName = colorName + std::to_string(whitchActor) + "power";
+	CHAR_INFO * colorPower = colorRes->find(colorName)->second;
+	CHAR_INFO * lowPower = colorRes->find("playernopower")->second;
+
+	int powerLine = 6 - inkPower / 2;
+	bool isDrawPower = false;
+
 	for (size_t i = 0; i < pObjSprite->size_.X; i++)
 	{
 		for (size_t j = 0; j < pObjSprite->size_.Y; j++)
@@ -44,9 +52,25 @@ void GameActor::update()
 			}
 			else
 			{
+				if (isDrawPower == false)
+				{
+					if (j == powerLine)
+					{
+						isDrawPower = true;
+					}
+					sceneInfo->getSceneInfo()[(j + objPosition.Y)*  sceneInfo->getScreenSize().X + i + objPosition.X] = *lowPower;
 
+				}
+				else
+				{
+					sceneInfo->getSceneInfo()[(j + objPosition.Y)*  sceneInfo->getScreenSize().X + i + objPosition.X] = *colorPower;
+
+				}
 			}
+			
 		}
+		isDrawPower = false;
+		
 	}
 
 }
@@ -154,13 +178,18 @@ void GameActor::down()
 
 void GameActor::left()
 {
+	//when change direction,change sprite
 	std::string spname = { "player" };
 	spname = spname + std::to_string(whitchActor) + "left";
 	pObjSprite = uomSprites->find(spname)->second;
+	//if actor in the scene
 	if (objPosition.X > 0)
 	{
+		//if the actor collicted by other actors
 		bool canMove = true;
+		//have power to draw ?
 		bool canDraw = false;
+		//collition
 		for (size_t i = 0; i < pObjSprite->size_.Y; i++)
 		{
 			if (mapInfo->vMapInfo[objPosition.X - 1][objPosition.Y + i].isBlock)
@@ -254,6 +283,35 @@ void GameActor::right()
 				}
 			}
 		}
+	}
+}
+
+void GameActor::shoot()
+{
+}
+
+void GameActor::plusPower()
+{
+	bool isOnField = false;
+	for (size_t i = 0; i < pObjSprite->size_.X; i++)
+	{
+		for (size_t j = 0; j < pObjSprite->size_.Y; j++)
+		{
+			if (mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + j].belongWho == whitchActor)
+			{
+				isOnField = true;
+				break;
+			}
+
+		}
+		if (isOnField == true)
+		{
+			break;
+		}
+	}
+	if (isOnField == true)
+	{
+		inkPower++;
 	}
 }
 

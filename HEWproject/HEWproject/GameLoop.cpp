@@ -47,7 +47,6 @@ void GameLoop::gloop()
 			previous = current;
 			//handle input
 			handleInput(actors);
-			mainMapInfo->update();
 			//handle update
 			update();
 			mainScene->draw();
@@ -81,8 +80,10 @@ void GameLoop::update()
 	switch (gameState)
 	{
 	case TITLE:
+		objTitle->update();
 		break;
 	case INGAME:
+		mainMapInfo->update();
 		for (auto& a : pObjects)
 		{
 			a->update();
@@ -100,7 +101,10 @@ void GameLoop::handleInput(std::vector<GameActor*>& actors)
 
 	if (gameState == TITLE)
 	{
-
+		if (inputHandler->inputSth(VK_SPACE))
+		{
+			gameState = INGAME;
+		}
 	}
 	else if (gameState == INGAME)
 	{

@@ -90,18 +90,24 @@ private:
 
 		colorRes.insert(pair<string, CHAR_INFO*>("player1color", new CHAR_INFO{ 0x2665 ,0xAB }));
 		colorRes.insert(pair<string, CHAR_INFO*>("player2color", new CHAR_INFO{ 0x2661, 0xCD }));
+		colorRes.insert(pair<string, CHAR_INFO*>("player1power", new CHAR_INFO{ '#', 0xAB }));
+		colorRes.insert(pair<string, CHAR_INFO*>("player2power", new CHAR_INFO{ '#', 0xCD }));
+		colorRes.insert(pair<string, CHAR_INFO*>("playernopower", new CHAR_INFO{ ' ', 0xFF }));
+
 		actors.push_back(new GameActor(player1coord, "player1right", spRes, *mainScene, *mainMapInfo, colorRes));
 		actors.push_back(new GameActor(player2coord, "player2left", spRes, *mainScene, *mainMapInfo, colorRes));
 		for (auto & a : actors)
 		{
 			pObjects.push_back(a);
 		}
+
+		objTitle = new GameObject({ 0,0 }, "Title", spRes, *mainScene, *mainMapInfo);
 	}
 
 private:
 	///------
 	HANDLE std_h, buffer_h;									//two handles for double buffer
-	GameState gameState = INGAME;							//control game state
+	GameState gameState = TITLE;							//control game state
 	CHAR_INFO pixelsOfScene[SCENE_WIDTH * SCENE_HEIGHT];	//screen buffer infor
 	vector<GameObject*> pObjects;							//save game actor
 	vector<GameActor*> actors;								//save gameactor's pointer
@@ -111,6 +117,7 @@ private:
 	InputHandler * inputHandler;							//inputhandler
 	MapInformation * mainMapInfo;								//mapinformation
 
+	GameObject * objTitle;
 public:
 	GameLoop();
 	~GameLoop();

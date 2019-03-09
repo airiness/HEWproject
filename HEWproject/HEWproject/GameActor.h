@@ -26,6 +26,8 @@ public:
 	void down();
 	void left();
 	void right();
+	void shoot();
+	void plusPower();
 
 	//different actor  has actions itseft
 	int whitchActor;

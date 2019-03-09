@@ -25,10 +25,6 @@ Command * InputHandler::handleInput(GameActor& actor)
 		{
 			return buttonD_;
 		}
-		if (inputSth(VK_SPACE))
-		{
-			return buttonSpace_;
-		}
 		if (inputSth('W'))
 		{
 			return buttonW_;
@@ -36,6 +32,14 @@ Command * InputHandler::handleInput(GameActor& actor)
 		if (inputSth('S'))
 		{
 			return buttonS_;
+		}
+		if (inputSth('F'))
+		{
+			return buttonPowerUp_;
+		}
+		if (inputSth('G'))
+		{
+			return buttonShoot_;
 		}
 	}
 	if (actor.whitchActor==2)
@@ -48,10 +52,6 @@ Command * InputHandler::handleInput(GameActor& actor)
 		{
 			return buttonD_;
 		}
-		if (inputSth(VK_SPACE))
-		{
-			return buttonSpace_;
-		}
 		if (inputSth(VK_UP))
 		{
 			return buttonW_;
@@ -59,6 +59,14 @@ Command * InputHandler::handleInput(GameActor& actor)
 		if (inputSth(VK_DOWN))
 		{
 			return buttonS_;
+		}
+		if (inputSth(VK_NUMPAD1))
+		{
+			return buttonPowerUp_;
+		}
+		if (inputSth(VK_NUMPAD2))
+		{
+			return buttonShoot_;
 		}
 	}
 
@@ -71,7 +79,8 @@ void InputHandler::initCommand()
 	buttonD_ = new rightCommand();
 	buttonW_ = new upCommand();
 	buttonS_ = new downCommand();
-	buttonSpace_ = new upCommand();
+	buttonPowerUp_ = new powerCommand();  
+	buttonShoot_ = new shootCommand();
 
 }
 
@@ -81,7 +90,8 @@ void InputHandler::uninitCommand()
 	delete buttonD_;
 	delete buttonW_;
 	delete buttonS_;
-	delete buttonSpace_;
+	delete buttonPowerUp_;
+	delete buttonShoot_;
 }
 
 int InputHandler::inputSth(int port)
