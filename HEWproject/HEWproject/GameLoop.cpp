@@ -46,7 +46,7 @@ void GameLoop::gloop()
 
 
 		//make fps 60
-		if ((current - previous )>= 1000 / 20000)
+		if ((current - previous )>= 1000 / 160)
 		{
 			previous = current;
 			//handle input

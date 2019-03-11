@@ -8,7 +8,7 @@ GameObject::GameObject(COORD pos_, const std::string& name_,
 	mapInfo(&mapInfo_)
 {
 	
-	pObjSprite = loadSpriteByName(objName);
+	objSprite = loadSpriteByName(objName);
 }
 
 GameObject::~GameObject()
@@ -27,13 +27,13 @@ Sprite GameObject::loadSpriteByName(const std::string key)
 
 void GameObject::writeToScreenInfo()
 {
-	for (size_t i = 0; i < pObjSprite.size_.X; i++)
+	for (size_t i = 0; i < objSprite.size_.X; i++)
 	{
-		for (size_t j = 0; j < pObjSprite.size_.Y; j++)
+		for (size_t j = 0; j < objSprite.size_.Y; j++)
 		{
-			if (pObjSprite.isBlank_[j * pObjSprite.size_.X + i] == true)
+			if (objSprite.isBlank_[j * objSprite.size_.X + i] == true)
 			{
-				sceneInfo->getSceneInfo()[(j + objPosition.Y)*  sceneInfo->getScreenSize().X + i + objPosition.X] = pObjSprite.charInfo_[j * pObjSprite.size_.X + i];
+				sceneInfo->getSceneInfo()[(j + objPosition.Y)*  sceneInfo->getScreenSize().X + i + objPosition.X] = objSprite.charInfo_[j * objSprite.size_.X + i];
 			}
 		}
 	}

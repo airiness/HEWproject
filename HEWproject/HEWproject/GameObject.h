@@ -21,7 +21,7 @@ public:
 	std::string objName;//object name
 	COORD objOldPosition;	//old position
 	COORD objPosition; // object position
-	Sprite pObjSprite; //the sprite of object
+	Sprite objSprite; //the sprite of object
 	bool isUse; //is the object useful
 	bool isEntity = false; // phsical
 protected:
