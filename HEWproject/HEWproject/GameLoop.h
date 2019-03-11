@@ -18,6 +18,7 @@ using namespace std;
 //screen size
 constexpr auto SCENE_WIDTH = 120;
 constexpr auto SCENE_HEIGHT = 40;
+constexpr auto GAME_TIME = 60000;	//game time 
 
 //gamestate different state do different things
 enum GameState
@@ -69,6 +70,7 @@ private:
 		mainMapInfo = new MapInformation(screenSize,*mainScene,colorRes);
 		//init input handler
 		inputHandler = new InputHandler();
+		gameTimeNow = GetTickCount();
 	}
 	inline void initGameResource()
 	{
@@ -101,7 +103,8 @@ private:
 			pObjects.push_back(a);
 		}
 
-		objTitle = new GameObject({ 0,0 }, "Title", spRes, *mainScene, *mainMapInfo);
+		objTitleAndResult = new GameObject({ 0,0 }, "Title", spRes, *mainScene, *mainMapInfo);
+		//objResult = new GameObject({ 0,0 }, "Result", spRes, *mainScene, *mainMapInfo);
 	}
 
 private:
@@ -115,9 +118,13 @@ private:
 	unordered_map<string, CHAR_INFO*> colorRes;				//color resource
 	Scene * mainScene;										//sreenscene
 	InputHandler * inputHandler;							//inputhandler
-	MapInformation * mainMapInfo;								//mapinformation
+	MapInformation * mainMapInfo;							//mapinformation
 
-	GameObject * objTitle;
+	GameObject * objTitleAndResult;
+
+	int gameTime = GAME_TIME;
+	int gameTimeNow = 0;
+	bool gameTimeInited = false;
 public:
 	GameLoop();
 	~GameLoop();
@@ -131,6 +138,8 @@ private:
 	void uninit();
 	//update all game objects
 	void update();
+	//when the game begin next time,re all the resource and compnent
+	void reAllComponent();
 	//deal the inputs of actors
 	void handleInput(vector<GameActor*>&);
 };

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="GameActor.cpp" />
     <ClCompile Include="DebugInfo.cpp" />
     <ClCompile Include="GameLoop.cpp" />
@@ -30,6 +31,7 @@
     <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="GameActor.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="DebugInfo.h" />

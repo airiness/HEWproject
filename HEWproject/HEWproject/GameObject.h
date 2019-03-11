@@ -21,7 +21,7 @@ public:
 	std::string objName;//object name
 	COORD objOldPosition;	//old position
 	COORD objPosition; // object position
-	Sprite *pObjSprite; //the sprite of object
+	Sprite pObjSprite; //the sprite of object
 	bool isUse; //is the object useful
 	bool isEntity = false; // phsical
 protected:
@@ -29,7 +29,7 @@ protected:
 	Scene * sceneInfo;			//mainscene
 	MapInformation* mapInfo;	//mapinfo for collition
 	//load sprite
-	Sprite* loadSpriteByName(const std::string);
+	Sprite loadSpriteByName(const std::string);
 
 
 private:

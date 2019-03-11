@@ -2,14 +2,45 @@
 
 
 
+Sprite::Sprite()
+	:charInfo_(nullptr), size_({ 0,0 })
+{
+}
+
 Sprite::Sprite(const std::string& filename)
 	:spriteName_(filename),charInfo_(nullptr),size_({0,0})
 {
 	loadSpriteFromFile();
 }
 
+Sprite::Sprite(const Sprite & rhs)
+	:size_(rhs.size_),spriteName_(rhs.spriteName_),isBlank_(rhs.isBlank_)
+{
+	charInfo_ = new CHAR_INFO[rhs.size_.X * rhs.size_.Y];
+	for (size_t i = 0; i < rhs.size_.X * rhs.size_.Y; i++)
+	{
+		charInfo_[i] = rhs.charInfo_[i];
+	}
+}
+
+Sprite & Sprite::operator=(Sprite rhs)
+{
+	swap(*this, rhs);
+	return *this;
+}
+
 Sprite::~Sprite()
 {
+	delete[] charInfo_;
+}
+
+void Sprite::swap(Sprite & lhs, Sprite & rhs)
+{
+	using std::swap;
+	swap(lhs.charInfo_, rhs.charInfo_);
+	swap(lhs.isBlank_, rhs.isBlank_);
+	swap(lhs.size_, rhs.size_);
+	swap(lhs.spriteName_, rhs.spriteName_);
 }
 
 int Sprite::loadSpriteFromFile()

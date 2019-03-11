@@ -34,6 +34,7 @@ void GameLoop::gloop()
 	{
 		//get time now
 		auto current = GetTickCount();
+#ifdef _DEBUG
 		//fps
 		if (current - fpsLastTime > 50)
 		{
@@ -41,6 +42,9 @@ void GameLoop::gloop()
 			fpsLastTime = current;
 			frameCount = 0;
 		}
+#endif // DEBUG_
+
+
 		//make fps 60
 		if ((current - previous )>= 1000 / 20000)
 		{
@@ -67,33 +71,51 @@ void GameLoop::init()
 	initGameCompanent();
 	initGameResource();
 }
-
+//unitit function
 void GameLoop::uninit()
 {
 	delete mainScene;
 	delete inputHandler;
 	delete mainMapInfo;
 }
-
+//call update function every frame
 void GameLoop::update()
 {
-	switch (gameState)
+	if (gameState == TITLE)
 	{
-	case TITLE:
-		objTitle->update();
-		break;
-	case INGAME:
+		//setStateToBegin();
+		objTitleAndResult->update();
+	}
+	if (gameState == INGAME)
+	{
+		if (gameTimeInited == false)
+		{
+			gameTimeNow = GetTickCount();
+			gameTimeInited = true;
+		}
+		auto tmpTime = GetTickCount();
+		gameTime-=(tmpTime - gameTimeNow);
+		if (gameTime <= 0)
+		{
+			gameState = RESULT;
+		}
+		gameTimeNow = tmpTime;
 		mainMapInfo->update();
 		for (auto& a : pObjects)
 		{
 			a->update();
 		}
-		break;
-	case RESULT:
-		break;
-	default:
-		break;
+		
 	}
+	if (gameState == RESULT)
+	{
+		reAllComponent();
+		objTitleAndResult->update();
+	}
+}
+
+void GameLoop::reAllComponent()
+{
 }
 
 void GameLoop::handleInput(std::vector<GameActor*>& actors)
@@ -121,11 +143,10 @@ void GameLoop::handleInput(std::vector<GameActor*>& actors)
 	}
 	else if (gameState == RESULT)
 	{
-
-	}
-	else
-	{
-		
+		if (inputHandler->inputSth(VK_SPACE))
+		{
+			gameState = TITLE;;
+		}
 	}
 	
 }

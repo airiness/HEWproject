@@ -11,9 +11,16 @@ sprite class
 class Sprite
 {
 public:
-
-	Sprite(const std::string&);
+	Sprite();
+	Sprite(const std::string& filename);
+	Sprite(const Sprite& rhs);
+	Sprite & operator=(Sprite rhs);
 	~Sprite();
+	//use your own fucking swap!!!!!!!!!!!!!!!!!!!
+	//don't use std::swap to your own class!!!!!!!!!
+	//i spended at least 3hours here, oh my fuck!!
+	//please remember!!!
+	void swap(Sprite & lhs, Sprite & rhs);
 	CHAR_INFO * charInfo_;		//sprite information
 	std::vector<bool> isBlank_;	//is the char_info is blank,remeber every char_info useful or not
 	std::string spriteName_;	//sprite name 

@@ -11,14 +11,15 @@ GameActor::GameActor(COORD position_, const std::string &name_,
 	actorNum++;
 	whitchActor = actorNum;
 	isEntity = true;
-	for (size_t i = 0; i < pObjSprite->size_.X; i++)
+	for (size_t i = 0; i < pObjSprite.size_.X; i++)
 	{
-		for (size_t j = 0; j < pObjSprite->size_.Y; j++)
+		for (size_t j = 0; j < pObjSprite.size_.Y; j++)
 		{
 			mapInfo->vMapInfo[position_.X + i][position_.Y + j].isBlock = true;
 			mapInfo->vMapInfo[position_.X + i][position_.Y + j].belongWho = whitchActor;
 		}
 	}
+
 	std::string colorName = { "player" };
 	colorName = colorName + std::to_string(whitchActor) + "color";
 	actorColor = colorRes->find(colorName)->second;
@@ -32,7 +33,7 @@ GameActor::~GameActor()
 
 void GameActor::update()
 {
-
+	updateState();
 	std::string colorName = { "player" };
 	colorName = colorName + std::to_string(whitchActor) + "power";
 	CHAR_INFO * colorPower = colorRes->find(colorName)->second;
@@ -41,14 +42,14 @@ void GameActor::update()
 	int powerLine = 6 - inkPower / 2;
 	bool isDrawPower = false;
 
-	for (size_t i = 0; i < pObjSprite->size_.X; i++)
+	for (size_t i = 0; i < pObjSprite.size_.X; i++)
 	{
-		for (size_t j = 0; j < pObjSprite->size_.Y; j++)
+		for (size_t j = 0; j < pObjSprite.size_.Y; j++)
 		{
-			if (pObjSprite->isBlank_[j * pObjSprite->size_.X + i] == true)
+			if (pObjSprite.isBlank_[j * pObjSprite.size_.X + i] == true)
 			{
 				sceneInfo->getSceneInfo()[(j + objPosition.Y)*  sceneInfo->getScreenSize().X + i + objPosition.X]
-					= pObjSprite->charInfo_[j * pObjSprite->size_.X + i];
+					= pObjSprite.charInfo_[j * pObjSprite.size_.X + i];
 			}
 			else
 			{
@@ -76,13 +77,15 @@ void GameActor::update()
 }
 
 //when actor move up
+//ditective if can move or not
+//if have ink draw 
 void GameActor::up()
 {
 	if (objPosition.Y > 0)
 	{
 		bool canMove = true;
 		bool canDraw = false;
-		for (size_t i = 0; i < pObjSprite->size_.X; i++)
+		for (size_t i = 0; i < pObjSprite.size_.X; i++)
 		{
 			if (mapInfo->vMapInfo[objPosition.X + i][objPosition.Y - 1].isBlock)
 			{
@@ -92,7 +95,7 @@ void GameActor::up()
 		}
 		if (canMove)
 		{
-			for (size_t i = 0; i < pObjSprite->size_.X; i++)
+			for (size_t i = 0; i < pObjSprite.size_.X; i++)
 			{
 				if (mapInfo->vMapInfo[objPosition.X +i][objPosition.Y -1].belongWho != whitchActor)
 				{
@@ -101,10 +104,10 @@ void GameActor::up()
 				}
 			}
 			objPosition.Y--;
-			for (size_t i = 0; i < pObjSprite->size_.X; i++)
+			for (size_t i = 0; i < pObjSprite.size_.X; i++)
 			{
 				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y].isBlock = true;
-				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite->size_.Y].isBlock = false;
+				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite.size_.Y].isBlock = false;
 			}
 			if (canDraw)
 			{
@@ -115,7 +118,7 @@ void GameActor::up()
 				}
 				else
 				{
-					for (size_t i = 0; i < pObjSprite->size_.X; i++)
+					for (size_t i = 0; i < pObjSprite.size_.X; i++)
 					{
 						mapInfo->vMapInfo[objPosition.X + i][objPosition.Y].belongWho = whitchActor;
 					}
@@ -129,13 +132,13 @@ void GameActor::up()
 //when actor move to down
 void GameActor::down()
 {
-	if (objPosition.Y + pObjSprite->size_.Y < sceneInfo->getScreenSize().Y)
+	if (objPosition.Y + pObjSprite.size_.Y < sceneInfo->getScreenSize().Y)
 	{
 		bool canMove = true;
 		bool canDraw = false;
-		for (size_t i = 0; i < pObjSprite->size_.X; i++)
+		for (size_t i = 0; i < pObjSprite.size_.X; i++)
 		{
-			if (mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite->size_.Y].isBlock)
+			if (mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite.size_.Y].isBlock)
 			{
 				canMove = false;
 				break;
@@ -143,19 +146,19 @@ void GameActor::down()
 		}
 		if (canMove)
 		{
-			for (size_t i = 0; i < pObjSprite->size_.X; i++)
+			for (size_t i = 0; i < pObjSprite.size_.X; i++)
 			{
-				if (mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite->size_.Y].belongWho != whitchActor)
+				if (mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite.size_.Y].belongWho != whitchActor)
 				{
 					canDraw = true;
 					break;
 				}
 			}
 			objPosition.Y++;
-			for (size_t i = 0; i < pObjSprite->size_.X; i++)
+			for (size_t i = 0; i < pObjSprite.size_.X; i++)
 			{
 				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y - 1].isBlock = false;
-				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite->size_.Y - 1].isBlock = true;
+				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite.size_.Y - 1].isBlock = true;
 			}
 			if (canDraw)
 			{
@@ -166,22 +169,22 @@ void GameActor::down()
 				}
 				else
 				{
-					for (size_t i = 0; i < pObjSprite->size_.X; i++)
+					for (size_t i = 0; i < pObjSprite.size_.X; i++)
 					{
-						mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite->size_.Y - 1].belongWho = whitchActor;
+						mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + pObjSprite.size_.Y - 1].belongWho = whitchActor;
 					}
 				}
 			}
 		}
 	}
 }
-
+//when actor move to left
 void GameActor::left()
 {
 	//when change direction,change sprite
 	std::string spname = { "player" };
 	spname = spname + std::to_string(whitchActor) + "left";
-	pObjSprite = uomSprites->find(spname)->second;
+	pObjSprite = *uomSprites->find(spname)->second;
 	//if actor in the scene
 	if (objPosition.X > 0)
 	{
@@ -190,7 +193,7 @@ void GameActor::left()
 		//have power to draw ?
 		bool canDraw = false;
 		//collition
-		for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+		for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 		{
 			if (mapInfo->vMapInfo[objPosition.X - 1][objPosition.Y + i].isBlock)
 			{
@@ -200,7 +203,7 @@ void GameActor::left()
 		}
 		if (canMove)
 		{
-			for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+			for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 			{
 				if (mapInfo->vMapInfo[objPosition.X - 1][objPosition.Y + i].belongWho !=whitchActor)
 				{
@@ -209,10 +212,10 @@ void GameActor::left()
 				}
 			}
 			objPosition.X--;
-			for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+			for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 			{
 				mapInfo->vMapInfo[objPosition.X][objPosition.Y + i].isBlock = true;
-				mapInfo->vMapInfo[objPosition.X + pObjSprite->size_.X][objPosition.Y + i].isBlock = false;
+				mapInfo->vMapInfo[objPosition.X + pObjSprite.size_.X][objPosition.Y + i].isBlock = false;
 			}
 			if (canDraw)
 			{
@@ -223,7 +226,7 @@ void GameActor::left()
 				}
 				else
 				{
-					for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+					for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 					{
 						mapInfo->vMapInfo[objPosition.X][objPosition.Y + i].belongWho = whitchActor;
 					}
@@ -232,20 +235,20 @@ void GameActor::left()
 		}
 	}
 }
-
+//when actor move to right 
 void GameActor::right()
 {
 	std::string spname = { "player" };
 	spname = spname + std::to_string(whitchActor) + "right";
-	pObjSprite = uomSprites->find(spname)->second;
-	if (objPosition.X + pObjSprite->size_.X < sceneInfo->getScreenSize().X)
+	pObjSprite = *uomSprites->find(spname)->second;
+	if (objPosition.X + pObjSprite.size_.X < sceneInfo->getScreenSize().X)
 	{
 		//if can move
 		bool canMove = true;
 		bool canDraw = false;
-		for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+		for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 		{
-			if (mapInfo->vMapInfo[objPosition.X + pObjSprite->size_.X][objPosition.Y + i].isBlock)
+			if (mapInfo->vMapInfo[objPosition.X + pObjSprite.size_.X][objPosition.Y + i].isBlock)
 			{
 				canMove = false;
 				break;
@@ -253,19 +256,19 @@ void GameActor::right()
 		}
 		if (canMove)
 		{
-			for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+			for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 			{
-				if (mapInfo->vMapInfo[objPosition.X + pObjSprite->size_.X][objPosition.Y + i].belongWho != whitchActor)
+				if (mapInfo->vMapInfo[objPosition.X + pObjSprite.size_.X][objPosition.Y + i].belongWho != whitchActor)
 				{
 					canDraw = true;
 					break;
 				}
 			}
 			objPosition.X++;
-			for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+			for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 			{
 				mapInfo->vMapInfo[objPosition.X - 1][objPosition.Y + i].isBlock = false;
-				mapInfo->vMapInfo[objPosition.X + pObjSprite->size_.X - 1][objPosition.Y + i].isBlock = true;
+				mapInfo->vMapInfo[objPosition.X + pObjSprite.size_.X - 1][objPosition.Y + i].isBlock = true;
 			}
 			if (canDraw)
 			{
@@ -276,9 +279,9 @@ void GameActor::right()
 				}
 				else
 				{
-					for (size_t i = 0; i < pObjSprite->size_.Y; i++)
+					for (size_t i = 0; i < pObjSprite.size_.Y; i++)
 					{
-						mapInfo->vMapInfo[objPosition.X + pObjSprite->size_.X - 1][objPosition.Y + i].belongWho = whitchActor;
+						mapInfo->vMapInfo[objPosition.X + pObjSprite.size_.X - 1][objPosition.Y + i].belongWho = whitchActor;
 					}
 				}
 			}
@@ -290,12 +293,13 @@ void GameActor::shoot()
 {
 }
 
+//plus inkpower
 void GameActor::plusPower()
 {
 	bool isOnField = false;
-	for (size_t i = 0; i < pObjSprite->size_.X; i++)
+	for (size_t i = 0; i < pObjSprite.size_.X; i++)
 	{
-		for (size_t j = 0; j < pObjSprite->size_.Y; j++)
+		for (size_t j = 0; j < pObjSprite.size_.Y; j++)
 		{
 			if (mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + j].belongWho == whitchActor)
 			{
