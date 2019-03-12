@@ -1,3 +1,9 @@
+/*
+author:zhang ruisong
+date:2019.3.9
+class map information 
+detect collision and who is win ,very important
+*/
 #pragma once
 #include<Windows.h>
 #include<vector>

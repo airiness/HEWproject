@@ -34,7 +34,6 @@ private:
 	Command * buttonD_;
 	Command * buttonW_;
 	Command * buttonS_;
-
 	Command * buttonShoot_;
 	Command * buttonPowerUp_;
 	

@@ -5,7 +5,8 @@ GameActor inherit from GameObject
 */
 #pragma once
 #include<string>
-#include "GameObject.h"
+#include"GameObject.h"
+#include"Bullet.h"
 
 constexpr auto INK_POWER = 48;
 constexpr auto ACTOR_SPEED = 1;
@@ -28,6 +29,10 @@ public:
 		std::unordered_map<std::string, CHAR_INFO*>&);
 	~GameActor();
 
+
+	//real update
+	void update(const GameActor & actor);
+
 	//update gameobject state
 	virtual void update();
 
@@ -43,8 +48,18 @@ public:
 	int whitchActor;
 
 private:
-	inline void updateState()
+	inline void updateState(const GameActor & actor)
 	{
+		if (objPosition.X < (actor.pbullet->objPosition.X + actor.pbullet->objSprite.size_.X )&&
+			(objPosition.X + objSprite.size_.X) > actor.pbullet->objPosition.X &&
+			objPosition.Y < (actor.pbullet->objPosition.Y + actor.pbullet->objSprite.size_.Y) &&
+			(objPosition.Y + objSprite.size_.Y) > actor.pbullet->objPosition.Y &&
+			actor.pbullet->isUse == true)
+		{
+			actor.pbullet->isUse = false;
+			inkPower = 0;
+		}
+
 		std::string colorName = { "player" };
 		colorName = colorName + std::to_string(whitchActor) + "power";
 		CHAR_INFO * colorPower = colorRes->find(colorName)->second;
@@ -200,11 +215,10 @@ private:
 		*/
 	}
 
+	Bullet * pbullet;
 
-	CHAR_INFO* actorColor;
-	int score = 0;
-	bool isMoved = false;
-	int inkPower = INK_POWER;
+	CHAR_INFO* actorColor;	//facecolor of actor		
+	int inkPower = INK_POWER;	//	
 	int speed = ACTOR_SPEED;
 	int pressedTime;
 	int timeLastPress;
@@ -212,4 +226,5 @@ private:
 	//to remeber actor numbers(how many)
 	static int actorNum;
 	std::unordered_map<std::string, CHAR_INFO*>* colorRes;
+
 };

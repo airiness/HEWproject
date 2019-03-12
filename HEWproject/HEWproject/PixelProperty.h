@@ -8,6 +8,7 @@ pixel information class
 
 struct PixelProperty
 {
-	bool isBlock = false;
+	int isBlock = 0;
 	int belongWho = 0;
+	int isbullet = 0;
 };

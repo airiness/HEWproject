@@ -1,11 +1,12 @@
 #include "GameObject.h"
 
-GameObject::GameObject(COORD pos_, const std::string& name_, 
+
+
+GameObject::GameObject(COORD pos_, const std::string& name_,
 	std::unordered_map<std::string, Sprite*>& msp_,
 	Scene& sceneInfo_,MapInformation& mapInfo_)
-	:objPosition(pos_),objOldPosition(pos_),
-	objName(name_), uomSprites(&msp_),sceneInfo(&sceneInfo_),
-	mapInfo(&mapInfo_)
+	:objPosition(pos_),	objName(name_), uomSprites(&msp_),
+	sceneInfo(&sceneInfo_),	mapInfo(&mapInfo_)
 {
 	
 	objSprite = loadSpriteByName(objName);

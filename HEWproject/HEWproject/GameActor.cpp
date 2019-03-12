@@ -10,12 +10,13 @@ GameActor::GameActor(COORD position_, const std::string &name_,
 {
 	actorNum++;
 	whitchActor = actorNum;
-	isEntity = true;
+	//begin position can not move to
+	//set begin position area to each other
 	for (size_t i = 0; i < objSprite.size_.X; i++)
 	{
 		for (size_t j = 0; j < objSprite.size_.Y; j++)
 		{
-			mapInfo->vMapInfo[position_.X + i][position_.Y + j].isBlock = true;
+			mapInfo->vMapInfo[position_.X + i][position_.Y + j].isBlock = whitchActor;
 			mapInfo->vMapInfo[position_.X + i][position_.Y + j].belongWho = whitchActor;
 		}
 	}
@@ -26,6 +27,16 @@ GameActor::GameActor(COORD position_, const std::string &name_,
 	pressedTime = 0;
 	timeLastPress = GetTickCount();
 	timeLastPressInit = false;
+	//init bullet
+	pbullet = new Bullet({ 0,0 }, "Bullet", msp_, sceneInfo_, mapInfo_, whitchActor);
+	if (objSprite.spriteName_.substr(objSprite.spriteName_.size() - 4, objSprite.spriteName_.size()) == "left")
+	{
+		pbullet->isLeft = true;
+	}
+	else
+	{
+		pbullet->isLeft = false;
+	}
 }
 
 GameActor::~GameActor()
@@ -34,9 +45,9 @@ GameActor::~GameActor()
 }
 
 
-void GameActor::update()
+void GameActor::update(const GameActor& actor)
 {
-	updateState();
+	updateState(actor);
 	for (size_t i = 0; i < objSprite.size_.X; i++)
 	{
 		for (size_t j = 0; j < objSprite.size_.Y; j++)
@@ -45,6 +56,11 @@ void GameActor::update()
 				= objSprite.charInfo_[j * objSprite.size_.X + i];
 		}
 	}
+	pbullet->update();
+}
+
+void GameActor::update()
+{
 }
 
 //when actor move up
@@ -79,8 +95,8 @@ void GameActor::up()
 			objPosition.Y--;
 			for (size_t i = 0; i < objSprite.size_.X; i++)
 			{
-				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y].isBlock = true;
-				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + objSprite.size_.Y].isBlock = false;
+				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y].isBlock = whitchActor;
+				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + objSprite.size_.Y].isBlock = 0;
 			}
 			if (canDraw)
 			{
@@ -132,8 +148,8 @@ void GameActor::down()
 			objPosition.Y++;
 			for (size_t i = 0; i < objSprite.size_.X; i++)
 			{
-				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y - 1].isBlock = false;
-				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + objSprite.size_.Y - 1].isBlock = true;
+				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y - 1].isBlock = 0;
+				mapInfo->vMapInfo[objPosition.X + i][objPosition.Y + objSprite.size_.Y - 1].isBlock = whitchActor;
 			}
 			if (canDraw)
 			{
@@ -156,8 +172,11 @@ void GameActor::down()
 //when actor move to left
 void GameActor::left()
 {
+
 	pressedTime = 0;
 	timeLastPressInit = false;
+	//change bullet direction
+	pbullet->isLeft = true;
 	//when change direction,change sprite
 	std::string spname = { "player" };
 	spname = spname + std::to_string(whitchActor) + "left";
@@ -191,8 +210,8 @@ void GameActor::left()
 			objPosition.X--;
 			for (size_t i = 0; i < objSprite.size_.Y; i++)
 			{
-				mapInfo->vMapInfo[objPosition.X][objPosition.Y + i].isBlock = true;
-				mapInfo->vMapInfo[objPosition.X + objSprite.size_.X][objPosition.Y + i].isBlock = false;
+				mapInfo->vMapInfo[objPosition.X][objPosition.Y + i].isBlock = whitchActor;
+				mapInfo->vMapInfo[objPosition.X + objSprite.size_.X][objPosition.Y + i].isBlock = 0;
 			}
 			if (canDraw)
 			{
@@ -217,6 +236,7 @@ void GameActor::right()
 {
 	pressedTime = 0;
 	timeLastPressInit = false;
+	pbullet->isLeft = false;
 	std::string spname = { "player" };
 	spname = spname + std::to_string(whitchActor) + "right";
 	objSprite = *uomSprites->find(spname)->second;
@@ -246,8 +266,8 @@ void GameActor::right()
 			objPosition.X++;
 			for (size_t i = 0; i < objSprite.size_.Y; i++)
 			{
-				mapInfo->vMapInfo[objPosition.X - 1][objPosition.Y + i].isBlock = false;
-				mapInfo->vMapInfo[objPosition.X + objSprite.size_.X - 1][objPosition.Y + i].isBlock = true;
+				mapInfo->vMapInfo[objPosition.X - 1][objPosition.Y + i].isBlock = 0;
+				mapInfo->vMapInfo[objPosition.X + objSprite.size_.X - 1][objPosition.Y + i].isBlock = whitchActor;
 			}
 			if (canDraw)
 			{
@@ -272,6 +292,14 @@ void GameActor::shoot()
 {
 	pressedTime = 0;
 	timeLastPressInit = false;
+	if (pbullet->isUse == false && inkPower > 0)
+	{
+		pbullet->isUse = true;
+		pbullet->setBulletPos({objPosition.X, objPosition.Y + 2	});
+		pbullet->bulletSpeed =( pbullet->isLeft ? -2 : 2);
+		inkPower -= (step / 2);
+	}
+
 }
 
 //plus inkpower

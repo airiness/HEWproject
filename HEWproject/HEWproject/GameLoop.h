@@ -92,8 +92,8 @@ private:
 
 		colorRes.insert(pair<string, CHAR_INFO*>("player1color", new CHAR_INFO{ 0x2665 ,0xAB }));
 		colorRes.insert(pair<string, CHAR_INFO*>("player2color", new CHAR_INFO{ 0x2661, 0xCD }));
-		colorRes.insert(pair<string, CHAR_INFO*>("player1power", new CHAR_INFO{ '#', 0xAB }));
-		colorRes.insert(pair<string, CHAR_INFO*>("player2power", new CHAR_INFO{ '#', 0xCD }));
+		colorRes.insert(pair<string, CHAR_INFO*>("player1power", new CHAR_INFO{ ' ', 0xAB }));
+		colorRes.insert(pair<string, CHAR_INFO*>("player2power", new CHAR_INFO{ ' ', 0xCD }));
 		colorRes.insert(pair<string, CHAR_INFO*>("playernopower", new CHAR_INFO{ ' ', 0xFF }));
 
 		actors.push_back(new GameActor(player1coord, "player1right", spRes, *mainScene, *mainMapInfo, colorRes));

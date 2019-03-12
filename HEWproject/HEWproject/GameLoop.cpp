@@ -101,10 +101,12 @@ void GameLoop::update()
 		}
 		gameTimeNow = tmpTime;
 		mainMapInfo->update();
-		for (auto& a : pObjects)
-		{
-			a->update();
-		}
+		//for (auto& a : pObjects)
+		//{
+		//	a->update();
+		//}
+		actors[0]->update(*actors[1]);
+		actors[1]->update(*actors[0]);
 		
 	}
 	if (gameState == RESULT)
