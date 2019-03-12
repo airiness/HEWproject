@@ -12,13 +12,6 @@ constexpr auto INK_POWER = 48;
 constexpr auto ACTOR_SPEED = 1;
 constexpr auto step = 8;
 
-//actor state ,use at emoji
-enum ActorState
-{
-	ATTACK,
-	MOVE
-};
-
 class GameActor :
 	public GameObject
 {

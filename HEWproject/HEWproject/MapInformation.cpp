@@ -4,13 +4,19 @@ MapInformation::MapInformation(COORD mapSize_,Scene&scene,
 	std::unordered_map<std::string, CHAR_INFO*> &  acolors)
 	:mapSize(mapSize_),mapMainScene(&scene),mapColorRes(&acolors)
 {
-	vMapInfo.assign(mapSize_.X, std::vector<PixelProperty>(mapSize_.Y));
+	init();
 }
 
 
 
 MapInformation::~MapInformation()
 {
+}
+
+void MapInformation::init()
+{
+	vMapInfo.assign(mapSize.X, std::vector<PixelProperty>(mapSize.Y));
+
 }
 
 void MapInformation::update()

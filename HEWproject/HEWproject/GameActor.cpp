@@ -42,6 +42,8 @@ GameActor::GameActor(COORD position_, const std::string &name_,
 GameActor::~GameActor()
 {
 	actorNum--;
+	delete pbullet;
+
 }
 
 

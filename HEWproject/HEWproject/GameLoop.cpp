@@ -144,7 +144,16 @@ void GameLoop::reAllComponent()
 	gameTime = GAME_TIME;
 	gameTimeInited = false;
 	player1Point = player2Point = 0;
-	whoWinGame = 0;
+	mainMapInfo->init();
+	for (auto p: actors)
+	{
+		delete p;
+	}
+	actors.clear();
+	COORD player1coord = { 5,5 };
+	COORD player2coord = { 60,20 };
+	actors.push_back(new GameActor(player1coord, "player1right", spRes, *mainScene, *mainMapInfo, colorRes));
+	actors.push_back(new GameActor(player2coord, "player2left", spRes, *mainScene, *mainMapInfo, colorRes));
 }
 
 void GameLoop::handleInput(std::vector<GameActor*>& actors)

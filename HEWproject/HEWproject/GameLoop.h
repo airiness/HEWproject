@@ -18,7 +18,7 @@ using namespace std;
 //screen size
 constexpr auto SCENE_WIDTH = 120;
 constexpr auto SCENE_HEIGHT = 40;
-constexpr auto GAME_TIME = 6000;	//game time 
+constexpr auto GAME_TIME = 60000;	//game time 
 
 //gamestate different state do different things
 enum GameState

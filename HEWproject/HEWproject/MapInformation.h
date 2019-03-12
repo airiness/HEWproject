@@ -19,6 +19,8 @@ public:
 		std::unordered_map<std::string, CHAR_INFO*> &);
 	~MapInformation();
 
+	void init();
+
 	void update();
 
 	std::vector<std::vector<PixelProperty>> vMapInfo;
