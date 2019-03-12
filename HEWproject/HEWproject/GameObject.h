@@ -22,12 +22,12 @@ public:
 	std::string objName;//object name
 	COORD objPosition; // object position
 	Sprite objSprite; //the sprite of object
+	Sprite loadSpriteByName(const std::string);
 protected:
 	std::unordered_map<std::string, Sprite*> * uomSprites;
 	Scene * sceneInfo;			//mainscene
 	MapInformation* mapInfo;	//mapinfo for collition
 	//load sprite
-	Sprite loadSpriteByName(const std::string);
 
 
 private:

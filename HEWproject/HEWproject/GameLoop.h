@@ -18,7 +18,7 @@ using namespace std;
 //screen size
 constexpr auto SCENE_WIDTH = 120;
 constexpr auto SCENE_HEIGHT = 40;
-constexpr auto GAME_TIME = 600000;	//game time 
+constexpr auto GAME_TIME = 6000;	//game time 
 
 //gamestate different state do different things
 enum GameState
@@ -125,6 +125,8 @@ private:
 	int gameTime = GAME_TIME;
 	int gameTimeNow = 0;
 	bool gameTimeInited = false;
+	int player1Point = 0;
+	int player2Point = 0;
 public:
 	GameLoop();
 	~GameLoop();

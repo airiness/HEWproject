@@ -97,6 +97,29 @@ void GameLoop::update()
 		gameTime-=(tmpTime - gameTimeNow);
 		if (gameTime <= 0)
 		{
+			for (auto & v :mainMapInfo->vMapInfo)
+			{
+				for (auto & s:v)
+				{
+					if (s.belongWho == 1)
+					{
+						player1Point++;
+					}
+					else if(s.belongWho == 2)
+					{
+						player2Point++;
+					}
+				}
+			}
+			if (player1Point>player2Point)
+			{
+				objTitleAndResult->objSprite = objTitleAndResult->loadSpriteByName("GreenWin");
+			}
+			else
+			{
+				objTitleAndResult->objSprite = objTitleAndResult->loadSpriteByName("RedWin");
+			}
+			
 			gameState = RESULT;
 		}
 		gameTimeNow = tmpTime;
@@ -111,13 +134,17 @@ void GameLoop::update()
 	}
 	if (gameState == RESULT)
 	{
-		reAllComponent();
 		objTitleAndResult->update();
 	}
 }
 
 void GameLoop::reAllComponent()
 {
+	objTitleAndResult->objSprite = objTitleAndResult->loadSpriteByName("Title");
+	gameTime = GAME_TIME;
+	gameTimeInited = false;
+	player1Point = player2Point = 0;
+	whoWinGame = 0;
 }
 
 void GameLoop::handleInput(std::vector<GameActor*>& actors)
@@ -145,9 +172,10 @@ void GameLoop::handleInput(std::vector<GameActor*>& actors)
 	}
 	else if (gameState == RESULT)
 	{
-		if (inputHandler->inputSth(VK_SPACE))
+		if (inputHandler->inputSth(VK_RETURN))
 		{
-			gameState = TITLE;;
+			reAllComponent();
+			gameState = TITLE;
 		}
 	}
 	
