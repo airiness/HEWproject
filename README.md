@@ -2,7 +2,7 @@
 
 A console game made in period of "HAL Event Week ".<br> 
 Game Title is "Spladouble"<br> 
-game rule is like "splatoon":the player who occupies bigger area will win in 60 seconds.<br> 
+game rule is like "splatoon":the player who occupies the bigger area will win in 60 seconds.<br> 
 
 ## operate method:
 Keyboard<br> 
